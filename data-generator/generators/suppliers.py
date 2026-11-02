@@ -1,16 +1,6 @@
 from faker import Faker
-import random
 
-fake = Faker()
-
-REGIONS = [
-    "North",
-    "South",
-    "East",
-    "West",
-    "Central"
-]
-
+fake = Faker("en_IN")
 
 def generate_suppliers(count):
 
@@ -19,6 +9,5 @@ def generate_suppliers(count):
         yield (
             supplier_id,
             fake.company(),
-            f"supplier{supplier_id}@example.com",
-            random.choice(REGIONS)
+            fake.country(),
         )

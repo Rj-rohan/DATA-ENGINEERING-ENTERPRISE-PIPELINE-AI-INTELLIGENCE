@@ -1,16 +1,9 @@
 from faker import Faker
 import random
 
-fake = Faker()
+fake = Faker("en_IN")
 
-REGIONS = [
-    "North",
-    "South",
-    "East",
-    "West",
-    "Central"
-]
-
+REGIONS = ["North", "South", "East", "West", "Central"]
 
 def generate_warehouses(count):
 
@@ -18,7 +11,7 @@ def generate_warehouses(count):
 
         yield (
             warehouse_id,
-            fake.company() + " Warehouse",
-            fake.city(),
-            random.choice(REGIONS)
+            f"{fake.city()} Distribution Center",
+            random.choice(REGIONS),
+            random.randint(10000, 100000),
         )

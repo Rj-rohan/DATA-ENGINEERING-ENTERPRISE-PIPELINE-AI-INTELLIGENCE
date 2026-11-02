@@ -1,8 +1,5 @@
-from datetime import date, timedelta
-from faker import Faker
+from datetime import datetime, timedelta, timezone
 import random
-
-fake = Faker()
 
 STATUSES = [
     "Preparing",
@@ -11,16 +8,31 @@ STATUSES = [
     "Delayed"
 ]
 
+def generate_shipments(
+    count,
+    order_count=100000,
+    warehouse_count=50
+):
 
-def generate_shipments(count, order_count=100000):
+    now = datetime.now(timezone.utc)
 
     for shipment_id in range(1, count + 1):
+
+        status = random.choice(STATUSES)
+
+        shipped_at = now - timedelta(days=random.randint(0, 30))
+
+        delivered_at = (
+            shipped_at + timedelta(days=random.randint(1, 7))
+            if status == "Delivered"
+            else None
+        )
 
         yield (
             shipment_id,
             random.randint(1, order_count),
-            fake.company(),
-            f"TRK-{shipment_id:010d}",
-            date.today() + timedelta(days=random.randint(0, 30)),
-            random.choice(STATUSES)
+            random.randint(1, warehouse_count),
+            status,
+            shipped_at,
+            delivered_at,
         )
